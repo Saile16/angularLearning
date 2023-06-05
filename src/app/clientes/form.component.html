@@ -1,0 +1,51 @@
+<div class="card bg-dark text-white">
+  <div class="card-header">{{ titulo }}</div>
+  <div class="card-body">
+    <!-- el metodo create llama a una funcion en el component -->
+    <form (ngSubmit)="create()">
+      <div class="form-group row m-2">
+        <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+        <div class="col-sm-6">
+          <!-- los ngModel setean los valores en las variables -->
+          <input
+            class="form-control"
+            [(ngModel)]="cliente.nombre"
+            name="nombre"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="form-group row m-3">
+        <label for="apellido" class="col-form-label col-sm-2"> Apellido</label>
+        <div class="col-sm-6">
+          <!-- los ngModel setean los valores en las variables -->
+          <input
+            class="form-control"
+            [(ngModel)]="cliente.apellido"
+            name="apellido"
+            type="text"
+          />
+        </div>
+      </div>
+
+      <div class="form-group row m-3">
+        <label for="email" class="col-form-label col-sm-2">Email </label>
+        <div class="col-sm-6">
+          <!-- los ngModel setean los valores en las variables -->
+          <input
+            class="form-control"
+            type="text"
+            [(ngModel)]="cliente.email"
+            name="email"
+          />
+        </div>
+      </div>
+      <div class="form-group row m-3">
+        <div class="col-sm-6">
+          <button class="btn btn-primary" role="button">Crear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
