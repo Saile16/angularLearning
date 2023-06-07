@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { CLIENTES } from './clientes.json';
 import { Cliente } from './cliente';
 import { Observable, of, throwError } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 import { Router } from '@angular/router';
+import { formatDate, DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +19,25 @@ export class ClienteService {
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   constructor(private http: HttpClient, private router: Router) {}
 
-  getCLientes(): Observable<Cliente[]> {
+  getCLientes(page: number): Observable<any> {
     // return of(CLIENTES);
     //return this.http.get<Cliente[]>(this.urlEndPoint);
-    return this.http
-      .get(this.urlEndPoint)
-      .pipe(map((response) => response as Cliente[]));
+    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+      tap((response: any) => {
+        (response.content as Cliente[]).forEach((cliente) => {
+          console.log(cliente.nombre);
+        });
+      }),
+      map((response: any) => {
+        (response as Cliente[]).map((cliente) => {
+          cliente.nombre = cliente.nombre.toUpperCase();
+          //let datePipe = new DatePipe('en-US');
+          //cliente.createAt = datePipe.transform(cliente.createAt, 'dd-MM-yyyy'); //formatDate(cliente.createAt,'dd-MM-yyyy','en-US');
+          return cliente;
+        });
+        return response;
+      })
+    );
   }
 
   //crea un tipo Cliente , el observable ve los cambios en el tipo Cliente ,
